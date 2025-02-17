@@ -4,8 +4,8 @@
 #include <stdlib.h>
 
 #define NUMCPUS         8
-#define LIMIT           1e7
-#define NUM_THREADS     4
+#define LIMIT           1e8
+#define NUM_THREADS     8
 
 typedef struct __counter_t {
     int global;
