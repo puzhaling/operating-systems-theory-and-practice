@@ -1,16 +1,46 @@
 #ifndef __essentials_h__
 #define __essentials_h__
 
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-#define NO_EINTR(stmt) while ((stmt) == -1 && errno == EINTR);
+#ifdef __GNUC__
+#define NORETURN \
+__attribute__ ((noreturn))
+#else
+#define NORETURN
+#endif
 
-void errExit(const char *msg)
-{
-        perror(msg);
+typedef enum { FALSE, TRUE } Boolean;
+
+NORETURN void 
+errExit(const char *errmsg) {
+        perror(errmsg);
         exit(EXIT_FAILURE);
 }
 
+NORETURN void
+err_exit(const char *errmsg) {
+        perror(errmsg);
+        _exit(EXIT_FAILURE);
+}
 
-#endif // __essentials_h__
+NORETURN void 
+usageErr(const char *errmsg) {
+        fprintf(stderr, "usage error: ");
+        perror(errmsg);
+        exit(EXIT_FAILURE);
+}
+
+NORETURN void 
+cmdLineErr(const char *errmsg) {
+        fprintf(stderr, "command line error: %s\n", errmsg);
+        exit(EXIT_FAILURE);
+}
+
+void warn(const char *msg) {
+        fprintf(stderr, "WARNING: %s\n", msg);
+}
+
+#endif /* __essentials_h__ */
